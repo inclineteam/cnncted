@@ -10,17 +10,14 @@ import {
 } from "@remix-run/react";
 
 import tailwindStyles from "~/styles/tailwind.css";
-import inter from "@fontsource/inter/index.css";
+import fonts from "./styles/fonts";
 
 export const links = () => [
   {
     rel: "stylesheet",
     href: tailwindStyles,
   },
-  {
-    rel: "stylesheet",
-    href: inter,
-  },
+  [...fonts],
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
@@ -33,7 +30,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body style={{ fontFamily: '"DM Sans", sans-serif' }}>
+      <body style={{ fontFamily: '"Inter", sans-serif' }}>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
