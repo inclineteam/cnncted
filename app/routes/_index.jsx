@@ -1,39 +1,50 @@
+import { json } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
+import { Form, useLoaderData } from "@remix-run/react";
+import { auth } from "~/services/auth.server";
+import db from "~/services/db.server";
+
 export const meta = () => {
   return [
-    { title: "New Remix App" },
+    { title: "Cnncted" },
     { name: "description", content: "Welcome to Remix!" },
   ];
 };
 
+export const loader = async ({ request }) => {
+  const authUser = await auth.isAuthenticated(request);
+  const user = await db.user.findUnique({
+    where: {
+      id: authUser.id,
+    },
+  });
+
+  if (user.isNew) return redirect("/new");
+
+  return json({ user });
+};
+
+export const action = async ({ request }) => {
+  return await auth.logout(request, {
+    redirectTo: "/signin",
+  });
+};
+
 export default function Index() {
+  const { user } = useLoaderData();
+
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+    <div className="h-auto bg-neutral-100 space-x-4 min-h-screen flex items-center justify-center p-4">
+      <div className="rounded-lg bg-white shadow-sm p-4">
+        <img
+          src={user.avatar}
+          className="w-32 h-32 rounded-full border border-black/10"
+        />
+        <p>
+          {user.firstName} {user.lastName}
+        </p>
+      </div>
+      <div className="rounded-lg bg-white shadow-sm p-4">Your links</div>
     </div>
   );
 }

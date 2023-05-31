@@ -9,7 +9,18 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import tailwindStyles from "~/styles/tailwind.css";
+import inter from "@fontsource/inter/index.css";
+
 export const links = () => [
+  {
+    rel: "stylesheet",
+    href: tailwindStyles,
+  },
+  {
+    rel: "stylesheet",
+    href: inter,
+  },
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
@@ -22,7 +33,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body style={{ fontFamily: '"DM Sans", sans-serif' }}>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
