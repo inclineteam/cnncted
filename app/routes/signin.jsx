@@ -35,9 +35,9 @@ function Signin() {
   const { user, hasSentEmail, email, error } = useLoaderData();
 
   return (
-    <div className="flex items-center justify-center min-h-screen h-auto bg-neutral-100">
+    <div className="flex items-center justify-center min-h-screen h-auto bg-neutral-100 px-4">
       <div className="max-w-lg w-full">
-        <h1 className="text-3xl font-bold text-neutral-600 -mt-10 mb-6">
+        <h1 className="text-3xl font-bold text-neutral-600 -mt-10 mb-4">
           Sign in
         </h1>
 
@@ -62,7 +62,7 @@ function Signin() {
 
             <button
               type="submit"
-              className="shadow-lg mt-6 hover:shadow-purple-300 duration-150 bg-purple-500 text-white w-full py-2 rounded-md font-semibold"
+              className="mt-6 shadow-[0px_2px_4px_rgba(127,88,210,0.4),0px_0px_0px_1px_#6b21a8,inset_0px_1px_0px_#C084FC] hover:bg-purple-600 duration-150 bg-purple-500 text-white w-full py-2 rounded-md font-semibold"
             >
               Send Code
             </button>
@@ -88,7 +88,7 @@ function Signin() {
 
               <button
                 type="submit"
-                className="shadow-lg mt-2 hover:shadow-purple-300 duration-150 bg-purple-500 text-white w-full py-2 rounded-md font-semibold"
+                className=" mt-2 shadow-[0px_2px_4px_rgba(127,88,210,0.4),0px_0px_0px_1px_#6b21a8,inset_0px_1px_0px_#C084FC] duration-150 bg-purple-500 text-white w-full py-2 rounded-md font-semibold"
               >
                 Continue
               </button>

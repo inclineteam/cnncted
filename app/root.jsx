@@ -10,14 +10,30 @@ import {
 } from "@remix-run/react";
 
 import tailwindStyles from "~/styles/tailwind.css";
-import fonts from "./styles/fonts";
+import tip from "./styles/simpletip.css";
 
 export const links = () => [
   {
     rel: "stylesheet",
     href: tailwindStyles,
   },
-  [...fonts],
+  {
+    rel: "stylesheet",
+    href: tip,
+  },
+  {
+    rel: "preconnect",
+    href: "https://fonts.googleapis.com",
+  },
+  {
+    rel: "preconnect",
+    href: "https://fonts.gstatic.com",
+    crossOrigin: "anonymous",
+  },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap",
+  },
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 

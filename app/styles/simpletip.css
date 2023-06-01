@@ -1,0 +1,69 @@
+/* just going to plug my simple project - https://github.com/iamaeron/simpletipcss/blob/main/simpletip.css */
+
+:root {
+  --simpletip-bg: #242529;
+  --simpletip-text: #fff;
+  --simpletip-offset: 4px;
+  --simpletip-transition: all 150ms ease-in-out;
+  --simpletip-font: 500 14px "Inter", sans-serif;
+  --simpletip-radius: 4px;
+  --simpletip-padding: 8px;
+  --simpletip-width: max-content;
+  --simpletip-border: 1px solid transparent;
+}
+
+.simpletip {
+  position: relative;
+}
+
+.simpletip:hover::before {
+  opacity: 1;
+  scale: 1;
+}
+
+.simpletip::before {
+  width: var(--simpletip-width);
+  position: absolute;
+  border-radius: var(--simpletip-radius);
+  background-color: var(--simpletip-bg);
+  content: attr(data-simpletip);
+  color: var(--simpletip-text);
+  font: var(--simpletip-font);
+  cursor: default;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--simpletip-transition);
+  border: var(--simpletip-border);
+  padding: var(--simpletip-padding);
+  pointer-events: none;
+  scale: 0.4;
+}
+
+.st-r::before {
+  top: 50%;
+  left: 100%;
+  margin-left: var(--simpletip-offset);
+  transform: translateY(-50%);
+}
+
+.st-l::before {
+  top: 50%;
+  right: 100%;
+  margin-right: var(--simpletip-offset);
+  transform: translateY(-50%);
+}
+
+.st-t::before {
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: var(--simpletip-offset);
+  transform: translateX(-50%);
+}
+
+.st-b::before {
+  top: 100%;
+  left: 50%;
+  margin-top: var(--simpletip-offset);
+  transform: translateX(-50%);
+  transform-origin: top left;
+}

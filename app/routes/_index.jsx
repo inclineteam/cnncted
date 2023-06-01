@@ -3,6 +3,14 @@ import { redirect } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { auth } from "~/services/auth.server";
 import db from "~/services/db.server";
+import Layout from "../components/Layout";
+import Tab from "../components/Tab";
+import TabItem from "../components/TabItem";
+import { useSearchParams } from "@remix-run/react";
+import LinkLists from "../components/LinkLists";
+import LinkGroups from "../components/LinkGroups";
+import PinnedLinks from "../components/PinnedLinks";
+import { useState } from "react";
 
 export const meta = () => {
   return [
@@ -20,6 +28,10 @@ export const loader = async ({ request }) => {
     where: {
       id: authUser.id,
     },
+    include: {
+      links: true,
+      linkGroups: true,
+    },
   });
 
   if (user.isNew) return redirect("/new");
@@ -35,52 +47,39 @@ export const action = async ({ request }) => {
 
 export default function Index() {
   const { user } = useLoaderData();
+  const [activeTab, setActiveTab] = useState("links");
 
   return (
-    <div className="h-auto bg-gradient-to-b from-purple-500 to-violet-950 space-x-4 min-h-screen flex items-center justify-center p-4">
-      <div className="flex flex-col h-[80vh] rounded-3xl max-w-2xl w-full bg-white shadow-sm p-6">
-        <div className="border-b border-slate-100 pb-2">
-          <Link
-            to="/"
-            className="flex items-end font-bold text-purple-500 text-xl tracking-tight"
-          >
-            <svg
-              className="[&>g>path]:stroke-[2] mr-1 w-8 h-8"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
-              <g
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeWidth="1.5"
-              >
-                <path d="M14 12a6 6 0 11-6-6"></path>
-                <path d="M10 12a6 6 0 116 6" opacity="0.5"></path>
-              </g>
-            </svg>
-            <span>cnncted</span>
-          </Link>
-        </div>
-        <div className="flex items-end pt-6">
-          <div className="p-1 rounded-full mr-4 border border-black/10">
-            <img src={user.avatar} className="w-24 h-24 rounded-full" />
-          </div>
-          <div>
-            <p className="text-2xl text-neutral-700 font-bold">
-              @{user.username}
-            </p>
-            <p className="fon">
-              {user.firstName} {user.lastName}
-            </p>
-          </div>
-        </div>
-        <div className="flex-1 rounded-lg bg-white shadow-sm p-4">
-          Your links
-        </div>
+    <Layout user={user}>
+      <Tab>
+        <TabItem
+          isActive={activeTab === "links"}
+          setTab={() => setActiveTab("links")}
+          name="Links"
+        />
+        <TabItem
+          isActive={activeTab === "groups"}
+          setTab={() => setActiveTab("groups")}
+          name="Groups"
+        />
+        <TabItem
+          isActive={activeTab === "discover"}
+          setTab={() => setActiveTab("discover")}
+          name="Discover"
+        />
+        <TabItem
+          isActive={activeTab === "pinned"}
+          setTab={() => setActiveTab("pinned")}
+          name="Pinned"
+        />
+      </Tab>
+      <div className="pt-4">
+        {activeTab === "links" && (
+          <LinkLists isCurrentUser={true} links={user.links} />
+        )}
+        {activeTab === "groups" && <LinkGroups links={user.links} />}
+        {activeTab === "pinned" && <PinnedLinks links={user.links} />}
       </div>
-    </div>
+    </Layout>
   );
 }

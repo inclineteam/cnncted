@@ -50,4 +50,5 @@ model LinkGroup {
   userId String
   links  Link[]
   pinned Boolean @default(false)
+  name   String
 }
